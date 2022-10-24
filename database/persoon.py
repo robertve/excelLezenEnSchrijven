@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from pony.orm import Database, PrimaryKey, Required, Set
+from pony.orm import Database, PrimaryKey, Required, Set, db_session
 
 from database.cadeau import Cadeau
 
@@ -11,11 +11,11 @@ class Persoon(db.Entity):
     id = PrimaryKey(int, auto=True)
     naam = Required(str)
     geboortedatum = Required(date)
-    cadeaus = Set('Cadeau')
+    cadeaus = Set(Cadeau)
 
     def __init__(self, naam, geboortedatum):
-        self.naam = naam
-        self.geboortedatum = geboortedatum
+        naam = naam
+        geboortedatum = geboortedatum
 
     def geef_cadeau(self, aanleiding: str, omschrijving: str) -> Cadeau:
         datum = datetime.today()

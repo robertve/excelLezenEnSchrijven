@@ -14,6 +14,6 @@ class Cadeau(db.Entity):
 
     def __init__(self, aanleiding: str, omschrijving: str, datum: date):
         # self.ontvanger = ontvanger
-        self.aanleiding = aanleiding
-        self.omschrijving = omschrijving
-        self.datum = datum
+        aanleiding = aanleiding
+        omschrijving = omschrijving
+        datum = datum

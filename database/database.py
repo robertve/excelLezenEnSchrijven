@@ -6,7 +6,6 @@ from datumfuncties import vandaag
 from familielid import Familielid
 
 
-@db_session
 def geef_chocoladeletters(familie: list):
     db = Database()
     db.bind(provider='sqlite', filename=':memory:', create_db=True)
