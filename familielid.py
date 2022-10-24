@@ -13,7 +13,7 @@ class Familielid:
 
     def __init__(self, naam, familieverband, geboortedatum):
         """
-        Constructor.
+        Constructor bestaande uit een voornaam, een familieverband en een geboortedatum.
 
         :param naam: Voornaam
         :param familieverband: Familieverband (vader, moeder, etc.)
