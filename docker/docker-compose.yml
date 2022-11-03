@@ -1,5 +1,5 @@
 version: '3'
-# Stoppen met: podman-compose down
+# Stoppen met: podman-compose down -v
 # Starten met: podman-compose up -d
 services:
   database:
