@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from pony.orm import Database, PrimaryKey, Required, Set, db_session
+from pony.orm import Database, PrimaryKey, Required, Set, db_session, set_sql_debug
 from pony.orm import commit
 
 from datumfuncties import vandaag
@@ -19,17 +19,6 @@ class Persoon(db.Entity):
     cadeaus = Set(lambda: Cadeau, cascade_delete=True)
 
     @db_session
-    def __init__(self, naam, geboortedatum):
-        """
-        Constructor bestaande uit een naam en een geboortedatum.
-
-        :param naam: Volledige naam
-        :param geboortedatum: Geboortedatum
-        """
-        naam = naam
-        geboortedatum = geboortedatum
-
-    @db_session
     def geef_cadeau(self, aanleiding: str, omschrijving: str) -> int:
         """
         Voegt een cadeau toe aan een persoon.
@@ -39,7 +28,7 @@ class Persoon(db.Entity):
         :return: Cadeau-object
         """
         datum = datetime.today()
-        return Cadeau(ontvanger=self, aanleiding=aanleiding, omschrijving=omschrijving, datum=datum)
+        return Cadeau(persoon=self, aanleiding=aanleiding, omschrijving=omschrijving, datum=datum)
 
 
 class Cadeau(db.Entity):
@@ -48,13 +37,6 @@ class Cadeau(db.Entity):
     omschrijving = Required(str)
     datum = Required(date)
     persoon = Required(Persoon)
-
-    @db_session
-    def __init__(self, aanleiding: str, omschrijving: str, datum: date):
-        # self.ontvanger = ontvanger
-        aanleiding = aanleiding
-        omschrijving = omschrijving
-        datum = datum
 
 
 @db_session
@@ -70,10 +52,11 @@ def geef_chocoladeletters(familie: list):
             persoon = Persoon(naam=familielid.naam, geboortedatum=familielid.geboortedatum)
             cadeau_idee = 'chocoladeletter ' + familielid.naam[:1].upper()
             aanleiding = 'Sinterklaas'
-            cadeau = Cadeau(aanleiding=aanleiding, omschrijving=cadeau_idee, datum=vandaag())
+            cadeau = persoon.geef_cadeau(aanleiding=aanleiding, omschrijving=cadeau_idee)
     commit()
 
 
 def open_database():
     db.bind(provider='postgres', user='postgres', password='postgres', host='localhost', database='postgres')
+    set_sql_debug(True)
     db.generate_mapping(create_tables=True)

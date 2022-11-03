@@ -1,12 +1,16 @@
 version: '3'
-# Stoppen met: podman-compose down -v
+# Stoppen met: podman-compose down
 # Starten met: podman-compose up -d
 services:
   database:
     image: docker.io/postgres:14
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql
     ports:
       - 5432:5432
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
+volumes:
+  postgresql-data:
