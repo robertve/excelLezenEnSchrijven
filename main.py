@@ -1,6 +1,6 @@
 from openpyxl import load_workbook, Workbook
 
-from database.database import geef_chocoladeletters, open_database
+from database.database import open_database, geef_chocoladeletters
 from familielid import Familielid
 
 if __name__ == '__main__':
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     print(f'Ik heb {familie}.')
 
-    # Leg e.e.a. vast in de in-memory database.
+    # Leg e.e.a. vast in de Postgres-database.
     open_database()
 
     geef_chocoladeletters(familieleden)
